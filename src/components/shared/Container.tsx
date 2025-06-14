@@ -6,7 +6,10 @@ export function Container({
 }: React.ComponentPropsWithoutRef<"div">) {
   return (
     <div
-      className={cn("w-full px-4 xl:mx-auto xl:w-[1280px]", className)}
+      className={cn(
+        "flex w-full flex-col items-stretch gap-4 px-4 xl:mx-auto xl:w-[1280px]",
+        className,
+      )}
       {...props}
     />
   )

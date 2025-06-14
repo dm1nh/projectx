@@ -5,8 +5,13 @@ import { createBrowserRouter, RouterProvider } from "react-router"
 
 import "./globals.css"
 
-import { HomePage } from "@/app/home/Home"
-import { loader as quotesLoader, QuotesPage } from "@/app/quotes/Quotes"
+import { HomePage } from "@/app/home/Page"
+import {
+  loader as quoteFormLoader,
+  QuoteFormPage,
+} from "@/app/quotes/form/Page"
+import { loader as quoteLoader, QuotePage } from "@/app/quotes/id/Page"
+import { loader as quotesLoader, QuotesPage } from "@/app/quotes/Page"
 import { RootLayout } from "@/components/Layout"
 
 const router = createBrowserRouter([
@@ -19,8 +24,19 @@ const router = createBrowserRouter([
       },
       {
         path: "quotes",
-        loader: quotesLoader,
-        Component: QuotesPage,
+        children: [
+          { index: true, loader: quotesLoader, Component: QuotesPage },
+          {
+            path: ":id",
+            loader: quoteLoader,
+            Component: QuotePage,
+          },
+          {
+            path: "form",
+            loader: quoteFormLoader,
+            Component: QuoteFormPage,
+          },
+        ],
       },
     ],
   },

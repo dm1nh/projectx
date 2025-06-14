@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid"
 import {
   addRxPlugin,
   createRxDatabase,
@@ -31,11 +32,16 @@ type DbCollection = {
   products: ProductCollection
 }
 
-export async function createDb() {
+let dbPromise: RxDatabase<DbCollection> | null
+
+async function _create() {
   const storage = wrappedValidateAjvStorage({
     storage: getRxStorageLocalstorage(),
   })
-  removeRxDatabase("database", storage)
+
+  if (import.meta.env.MODE === "development") {
+    removeRxDatabase("database", storage)
+  }
 
   const db: RxDatabase<DbCollection> = await createRxDatabase({
     name: "database",
@@ -53,5 +59,20 @@ export async function createDb() {
     },
   })
 
+  await db.quotes.insert({
+    id: nanoid(),
+    customerName: "John Parker",
+    phoneNumber: "0909123456",
+    date: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+  })
+
   return db
+}
+
+export async function createDb() {
+  if (!dbPromise) {
+    dbPromise = await _create()
+  }
+  return dbPromise
 }
