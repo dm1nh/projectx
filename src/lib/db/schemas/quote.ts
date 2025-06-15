@@ -17,6 +17,7 @@ export const quoteSchemaLiteral = {
       type: "string",
       maxLength: 100,
     },
+    no: { type: "string" },
     customerName: {
       type: "string",
     },
@@ -26,15 +27,19 @@ export const quoteSchemaLiteral = {
     address: { type: "string" },
     taxCode: { type: "string" },
     carModel: { type: "string" },
+    carRegistrationNumber: { type: "string" },
+    carVin: { type: "string" },
+    carOdometer: { type: "integer" },
     date: { type: "string", format: "date-time" },
     products: {
       type: "array",
-      ref: "quotes",
+      ref: "products",
       items: { type: "string" },
+      default: [],
     },
     createdAt: { type: "string", format: "date-time" },
   },
-  required: ["id", "customerName", "phoneNumber", "date", "createdAt"],
+  required: ["id", "no", "customerName", "phoneNumber", "date", "createdAt"],
 } as const
 
 export const quoteSchemaTyped = toTypedRxJsonSchema(quoteSchemaLiteral)

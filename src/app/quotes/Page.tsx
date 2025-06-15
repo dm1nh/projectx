@@ -59,7 +59,7 @@ export function QuotesPage() {
           <PlusIcon /> Create
         </Button>
       </Link>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
         {data?.map((quote) => <QuoteCard key={quote.id} quote={quote} />)}
       </div>
     </>

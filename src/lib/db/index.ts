@@ -7,6 +7,7 @@ import {
 } from "rxdb/plugins/core"
 import { RxDBDevModePlugin } from "rxdb/plugins/dev-mode"
 import { getRxStorageLocalstorage } from "rxdb/plugins/storage-localstorage"
+import { RxDBUpdatePlugin } from "rxdb/plugins/update"
 import { getAjv, wrappedValidateAjvStorage } from "rxdb/plugins/validate-ajv"
 
 import {
@@ -15,6 +16,8 @@ import {
   type ProductCollection,
   type QuoteCollection,
 } from "./schemas"
+
+addRxPlugin(RxDBUpdatePlugin)
 
 addRxPlugin(RxDBDevModePlugin)
 
@@ -59,10 +62,17 @@ async function _create() {
     },
   })
 
-  await db.quotes.insert({
-    id: nanoid(),
+  await db.quotes.insertIfNotExists({
+    id: "1",
+    no: "4NS1234",
     customerName: "John Parker",
     phoneNumber: "0909123456",
+    address: "17/3 Tran Quang Co, phuong Phu Thanh, TPHCM",
+    taxCode: "11111111111",
+    carModel: "Ford Everest 2025",
+    carOdometer: 400_000,
+    carRegistrationNumber: "63L-71234",
+    carVin: "1S2A4F",
     date: new Date().toISOString(),
     createdAt: new Date().toISOString(),
   })

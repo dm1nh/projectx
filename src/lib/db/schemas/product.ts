@@ -18,12 +18,13 @@ export const productSchemaLiteral = {
       maxLength: 100,
     },
     name: { type: "string" },
+    unitPrice: { type: "integer", minimum: 0, default: 0 },
     unit: { type: "string" },
     quantity: { type: "integer", minimum: 1, default: 1 },
-    vat: { type: "integer" },
-    type: { type: "string", enum: ["1", "2", "3"] },
+    vat: { type: "integer", minimum: 0, default: 0 },
+    type: { type: "string", enum: ["1", "2", "3"], default: "1" },
   },
-  required: ["id", "name", "unit", "vat", "type"],
+  required: ["id", "name", "unitPrice", "unit", "quantity", "vat", "type"],
 } as const
 
 export const productSchemaTyped = toTypedRxJsonSchema(productSchemaLiteral)
