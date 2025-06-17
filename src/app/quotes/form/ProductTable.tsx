@@ -22,7 +22,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { mappedProductType } from "@/lib/constants"
 import { createDb } from "@/lib/db"
 import type { ProductDoc, QuoteDoc } from "@/lib/db/schemas"
 import { sortAndCalculateQuote } from "@/lib/utils"
@@ -53,26 +52,25 @@ export function QuoteProductTable({
 
   return (
     products.length > 0 && (
-      <div>
-        <div className="space-y-8 rounded border p-4">
+      <div className="mt-4">
+        <div>
           {Object.values(data.productsByType).map((pbt) => (
-            <div key={pbt.type}>
+            <div key={pbt.type} className="mt-6">
               <div className="flex items-center justify-between">
-                <h3 className="ml-2 text-lg font-semibold uppercase">
-                  {pbt.type}
-                </h3>
+                <h3 className="mb-1 ml-2 font-medium uppercase">{pbt.type}</h3>
                 <NumericFormat
                   type="text"
-                  className="text-right font-medium"
+                  className="mr-2 text-right text-sm font-medium"
                   value={pbt.totalPriceIncludingVAT}
-                  thousandSeparator=","
+                  thousandSeparator="."
+                  decimalSeparator=","
                   decimalScale={0}
                 />
               </div>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[40%]">Tên</TableHead>
+                    <TableHead className="w-[40%]">Hạng mục</TableHead>
                     <TableHead className="w-[10%] text-right">
                       Đơn giá
                     </TableHead>
@@ -100,7 +98,9 @@ export function QuoteProductTable({
                           type="text"
                           className="text-right"
                           value={doc.unitPrice}
-                          thousandSeparator=","
+                          thousandSeparator="."
+                          decimalSeparator=","
+                          decimalScale={0}
                         />
                       </TableCell>
                       <TableCell className="text-right">
@@ -114,7 +114,8 @@ export function QuoteProductTable({
                           className="text-right font-medium"
                           value={totalPriceIncludingVAT}
                           decimalScale={0}
-                          thousandSeparator=","
+                          thousandSeparator="."
+                          decimalSeparator=","
                         />
                       </TableCell>
                       {allowEdit && (
@@ -162,7 +163,8 @@ export function QuoteProductTable({
                 className="text-destructive font-medium"
                 value={data.totalPrice}
                 decimalScale={0}
-                thousandSeparator=","
+                thousandSeparator="."
+                decimalSeparator=","
               />
             </p>
             <p>
@@ -172,7 +174,8 @@ export function QuoteProductTable({
                 className="text-destructive font-medium"
                 value={data.vat}
                 decimalScale={0}
-                thousandSeparator=","
+                thousandSeparator="."
+                decimalSeparator=","
               />
             </p>
             <p>
@@ -182,7 +185,8 @@ export function QuoteProductTable({
                 className="text-destructive font-medium"
                 value={data.totalPriceIncludingVAT}
                 decimalScale={0}
-                thousandSeparator=","
+                thousandSeparator="."
+                decimalSeparator=","
               />
             </p>
           </div>

@@ -5,19 +5,21 @@ import { createBrowserRouter, RouterProvider } from "react-router"
 
 import "./globals.css"
 
-import type { ShouldRevalidateFunctionArgs } from "react-router"
-
 import { HomePage } from "@/app/home/Page"
 import {
   loader as quoteFormLoader,
   QuoteFormPage,
 } from "@/app/quotes/form/Page"
 import { loader as quoteLoader, QuotePage } from "@/app/quotes/id/Page"
+import {
+  loader as printQuoteLoader,
+  PrintQuotePage,
+} from "@/app/quotes/id/Print"
 import { loader as quotesLoader, QuotesPage } from "@/app/quotes/Page"
 import { RootLayout } from "@/components/Layout"
 
-function shouldRevalidate(arg: ShouldRevalidateFunctionArgs) {
-  return true // false
+function shouldRevalidate() {
+  return true
 }
 
 const router = createBrowserRouter([
@@ -48,6 +50,12 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: "quotes/:id/print",
+    shouldRevalidate,
+    loader: printQuoteLoader,
+    Component: PrintQuotePage,
   },
 ])
 
