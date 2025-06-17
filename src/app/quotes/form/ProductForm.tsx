@@ -31,7 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { mappedProductType } from "@/lib/constants"
+import { mappedProductType, vatLevels } from "@/lib/constants"
 import { createDb } from "@/lib/db"
 import type { ProductDoc, QuoteDoc } from "@/lib/db/schemas"
 import {
@@ -172,13 +172,26 @@ export function ProductForm({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>VAT(%)</FormLabel>
-                  <FormControl>
-                    <NumberInput min={0} {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value?.toString()}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select product type" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {vatLevels.map((vl) => (
+                        <SelectItem value={vl.toString()}>{vl}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="type"

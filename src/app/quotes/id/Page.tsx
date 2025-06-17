@@ -1,5 +1,5 @@
 import { format } from "date-fns"
-import { EditIcon, Trash2Icon } from "lucide-react"
+import { EditIcon, PrinterIcon, Trash2Icon } from "lucide-react"
 import { Link, useLoaderData, useNavigate, useRevalidator } from "react-router"
 
 import {
@@ -91,14 +91,20 @@ export function QuotePage() {
         </Breadcrumb>
       </div>
       <div className="space-x-2">
-        <Link to={`/quotes/form?id=${quote.id}`}>
+        <Link to={`/quotes/${quote.id}/print`}>
           <Button size="sm">
+            <PrinterIcon /> In
+          </Button>
+        </Link>
+
+        <Link to={`/quotes/form?id=${quote.id}`}>
+          <Button size="sm" variant="outline">
             <EditIcon /> Sửa
           </Button>
         </Link>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="destructive">
+            <Button variant="destructive" size="sm">
               <Trash2Icon /> Xóa
             </Button>
           </AlertDialogTrigger>

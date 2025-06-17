@@ -1,28 +1,6 @@
 import { format } from "date-fns"
-import { EditIcon, Trash2Icon } from "lucide-react"
-import { Link, useLoaderData, useNavigate, useRevalidator } from "react-router"
+import { useLoaderData, useNavigate, useRevalidator } from "react-router"
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
 import { createDb } from "@/lib/db"
 import { ProductDoc, type QuoteDoc } from "@/lib/db/schemas"
 
@@ -47,8 +25,6 @@ export function HydrateFallback() {
 }
 
 export function PrintQuotePage() {
-  const revalidator = useRevalidator()
-  const navigate = useNavigate()
   const { error, data } = useLoaderData() as {
     error: string | null
     data: { quote: QuoteDoc; products: ProductDoc[] } | null
@@ -58,17 +34,10 @@ export function PrintQuotePage() {
     return <div>Error</div>
   }
 
-  async function onDeleteQuote() {
-    const db = await createDb()
-    await db.quotes.findOne(data?.quote.id).remove()
-    revalidator.revalidate()
-    navigate("/quotes")
-  }
-
   const { quote } = data
 
   return (
-    <div className="flex w-[960px] flex-col items-stretch p-6">
+    <div className="flex w-[1280px] flex-col items-stretch p-6">
       <div className="flex items-center gap-12">
         <div>
           <img src="/logo.svg" alt="Logo" className="w-[192px]" />
@@ -90,8 +59,8 @@ export function PrintQuotePage() {
       <h1 className="mt-8 text-center text-2xl font-semibold uppercase">
         Phiếu báo giá sửa chữa
       </h1>
-      <div className="mt-2">
-        <table className="ml-auto">
+      <div className="mt-2 flex justify-center">
+        <table>
           <tbody>
             <tr>
               <td className="w-[80px]">Ngày:</td>
@@ -168,7 +137,7 @@ export function PrintQuotePage() {
         </ul>
         <p>Rất hân hạnh được đón tiếp và làm việc cùng quý khách hàng!</p>
       </div>
-      <div className="mt-6 grid grid-cols-3 grid-rows-[120px]">
+      <div className="mt-6 grid grid-cols-3 grid-rows-[200px]">
         <div className="flex flex-col items-center">
           <p className="uppercase">Chấp thuận của khách hàng</p>
           <p>(Ký và ghi rõ họ tên)</p>

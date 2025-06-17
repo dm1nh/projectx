@@ -60,7 +60,7 @@ export function QuoteProductTable({
                 <h3 className="mb-1 ml-2 font-medium uppercase">{pbt.type}</h3>
                 <NumericFormat
                   type="text"
-                  className="mr-2 text-right text-sm font-medium"
+                  className="mr-2 text-right text-base font-medium"
                   value={pbt.totalPriceIncludingVAT}
                   thousandSeparator="."
                   decimalSeparator=","
@@ -70,125 +70,139 @@ export function QuoteProductTable({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[40%]">Hạng mục</TableHead>
-                    <TableHead className="w-[10%] text-right">
-                      Đơn giá
-                    </TableHead>
-                    <TableHead className="w-[10%] text-right">
+                    <TableHead className="w-[3%]">STT</TableHead>
+                    <TableHead className="w-[50%]">Hạng mục</TableHead>
+                    <TableHead className="w-[8%] text-right">Đơn giá</TableHead>
+                    <TableHead className="w-[8%] text-right">
                       Số lượng
                     </TableHead>
                     <TableHead>Đơn vị</TableHead>
-                    <TableHead className="w-[10%] text-right">VAT(%)</TableHead>
-                    <TableHead className="w-[15%] text-right">
+                    <TableHead className="w-[8%] text-right">VAT(%)</TableHead>
+                    <TableHead className="w-[12%] text-right">
                       Thành tiền
                     </TableHead>
                     {allowEdit && (
-                      <TableHead className="w-[15%] text-right">
+                      <TableHead className="w-[11%] text-right">
                         Hành động
                       </TableHead>
                     )}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {pbt.products.map(({ doc, totalPriceIncludingVAT }) => (
-                    <TableRow key={doc.id}>
-                      <TableCell className="font-medium">{doc.name}</TableCell>
-                      <TableCell>
-                        <NumericFormat
-                          type="text"
-                          className="text-right"
-                          value={doc.unitPrice}
-                          thousandSeparator="."
-                          decimalSeparator=","
-                          decimalScale={0}
-                        />
-                      </TableCell>
-                      <TableCell className="text-right">
-                        {doc.quantity}
-                      </TableCell>
-                      <TableCell>{doc.unit}</TableCell>
-                      <TableCell className="text-right">{doc.vat}</TableCell>
-                      <TableCell className="text-right">
-                        <NumericFormat
-                          type="text"
-                          className="text-right font-medium"
-                          value={totalPriceIncludingVAT}
-                          decimalScale={0}
-                          thousandSeparator="."
-                          decimalSeparator=","
-                        />
-                      </TableCell>
-                      {allowEdit && (
-                        <TableCell className="space-x-2 text-right">
-                          <ProductForm quote={quote} product={doc} />
-                          <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button variant="destructive" size="icon">
-                                <Trash2Icon />
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                  Bạn có chắc muốn xóa sản phẩm này?
-                                </AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  Dữ liệu sẽ bị xóa vĩnh viễn và không thể khôi
-                                  phục.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Hủy</AlertDialogCancel>
-                                <AlertDialogAction
-                                  onClick={() => onDeleteProduct(doc.id)}
-                                >
-                                  Tiếp tục
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
+                  {pbt.products.map(
+                    ({ doc, totalPriceIncludingVAT }, _index) => (
+                      <TableRow key={doc.id}>
+                        <TableCell>{_index + 1}</TableCell>
+                        <TableCell className="font-medium">
+                          {doc.name}
                         </TableCell>
-                      )}
-                    </TableRow>
-                  ))}
+                        <TableCell>
+                          <NumericFormat
+                            type="text"
+                            className="text-right"
+                            value={doc.unitPrice}
+                            thousandSeparator="."
+                            decimalSeparator=","
+                            decimalScale={0}
+                          />
+                        </TableCell>
+                        <TableCell className="text-right">
+                          {doc.quantity}
+                        </TableCell>
+                        <TableCell>{doc.unit}</TableCell>
+                        <TableCell className="text-right">{doc.vat}</TableCell>
+                        <TableCell className="text-right">
+                          <NumericFormat
+                            type="text"
+                            className="text-right font-medium"
+                            value={totalPriceIncludingVAT}
+                            decimalScale={0}
+                            thousandSeparator="."
+                            decimalSeparator=","
+                          />
+                        </TableCell>
+                        {allowEdit && (
+                          <TableCell className="space-x-2 text-right">
+                            <ProductForm quote={quote} product={doc} />
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button variant="destructive" size="icon">
+                                  <Trash2Icon />
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>
+                                    Bạn có chắc muốn xóa sản phẩm này?
+                                  </AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    Dữ liệu sẽ bị xóa vĩnh viễn và không thể
+                                    khôi phục.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Hủy</AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={() => onDeleteProduct(doc.id)}
+                                  >
+                                    Tiếp tục
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          </TableCell>
+                        )}
+                      </TableRow>
+                    ),
+                  )}
                 </TableBody>
               </Table>
             </div>
           ))}
-          <div>
-            <p>
-              Tổng cộng (chưa bao gồm VAT):{" "}
-              <NumericFormat
-                type="text"
-                className="text-destructive font-medium"
-                value={data.totalPrice}
-                decimalScale={0}
-                thousandSeparator="."
-                decimalSeparator=","
-              />
-            </p>
-            <p>
-              VAT:{" "}
-              <NumericFormat
-                type="text"
-                className="text-destructive font-medium"
-                value={data.vat}
-                decimalScale={0}
-                thousandSeparator="."
-                decimalSeparator=","
-              />
-            </p>
-            <p>
-              Tổng cộng:{" "}
-              <NumericFormat
-                type="text"
-                className="text-destructive font-medium"
-                value={data.totalPriceIncludingVAT}
-                decimalScale={0}
-                thousandSeparator="."
-                decimalSeparator=","
-              />
-            </p>
+          <div className="mt-2 flex justify-end">
+            <table>
+              <tbody>
+                <tr>
+                  <td className="w-[200px]">Thành tiền (chưa VAT):</td>
+                  <td className="px-2">
+                    <NumericFormat
+                      type="text"
+                      className="text-right font-medium"
+                      value={data.totalPrice}
+                      decimalScale={0}
+                      thousandSeparator="."
+                      decimalSeparator=","
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Thuế VAT:</td>
+                  <td className="px-2">
+                    <NumericFormat
+                      type="text"
+                      className="text-right font-medium"
+                      value={data.vat}
+                      decimalScale={0}
+                      thousandSeparator="."
+                      decimalSeparator=","
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Thành tiền:</td>
+                  <td className="px-2">
+                    <NumericFormat
+                      type="text"
+                      className="text-right font-medium"
+                      value={data.totalPriceIncludingVAT}
+                      decimalScale={0}
+                      thousandSeparator="."
+                      decimalSeparator=","
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
