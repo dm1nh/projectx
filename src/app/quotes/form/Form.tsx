@@ -65,7 +65,7 @@ export function QuoteForm({ quote }: { quote?: QuoteDoc }) {
       })
       revalidator.revalidate()
       setLoading(false)
-      navigate("/quotes")
+      navigate("/projectx/quotes")
       return
     }
 

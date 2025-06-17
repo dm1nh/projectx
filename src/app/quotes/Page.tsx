@@ -44,7 +44,7 @@ export function QuotesPage() {
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/">Trang chủ</Link>
+                <Link to="/projectx">Trang chủ</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -54,7 +54,7 @@ export function QuotesPage() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <Link to="/quotes/form">
+      <Link to="/projectx/quotes/form">
         <Button size="sm">
           <PlusIcon /> Thêm
         </Button>

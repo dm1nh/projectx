@@ -50,13 +50,13 @@ export function QuoteFormPage() {
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/">Trang chủ</Link>
+                <Link to="/projectx">Trang chủ</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/quotes">Phiếu báo giá</Link>
+                <Link to="/projectx/quotes">Phiếu báo giá</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />

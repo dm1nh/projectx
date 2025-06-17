@@ -62,7 +62,7 @@ export function QuotePage() {
     const db = await createDb()
     await db.quotes.findOne(data?.quote.id).remove()
     revalidator.revalidate()
-    navigate("/quotes")
+    navigate("/projectx/quotes")
   }
 
   const { quote } = data
@@ -74,13 +74,13 @@ export function QuotePage() {
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/">Trang chủ</Link>
+                <Link to="/projectx">Trang chủ</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/quotes">Phiếu báo giá</Link>
+                <Link to="/projectx/quotes">Phiếu báo giá</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -91,13 +91,13 @@ export function QuotePage() {
         </Breadcrumb>
       </div>
       <div className="space-x-2">
-        <Link to={`/quotes/${quote.id}/print`}>
+        <Link to={`/projectx/quotes/${quote.id}/print`}>
           <Button size="sm">
             <PrinterIcon /> In
           </Button>
         </Link>
 
-        <Link to={`/quotes/form?id=${quote.id}`}>
+        <Link to={`/projectx/quotes/form?id=${quote.id}`}>
           <Button size="sm" variant="outline">
             <EditIcon /> Sửa
           </Button>

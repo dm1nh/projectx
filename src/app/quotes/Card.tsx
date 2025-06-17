@@ -6,7 +6,7 @@ import { type QuoteDoc } from "@/lib/db/schemas"
 export function QuoteCard({ quote }: { quote: QuoteDoc }) {
   return (
     <Link
-      to={`/quotes/${quote.id}`}
+      to={`/projectx/quotes/${quote.id}`}
       className="hover:border-accent space-y-1 rounded-lg border p-4 duration-150"
     >
       <p>#{quote.id}</p>

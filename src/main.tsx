@@ -27,11 +27,12 @@ const router = createBrowserRouter([
     Component: RootLayout,
     children: [
       {
+        path: "projectx",
         index: true,
         Component: HomePage,
       },
       {
-        path: "quotes",
+        path: "projectx/quotes",
         shouldRevalidate,
         children: [
           { index: true, loader: quotesLoader, Component: QuotesPage },
@@ -52,10 +53,14 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "quotes/:id/print",
+    path: "projectx/quotes/:id/print",
     shouldRevalidate,
     loader: printQuoteLoader,
     Component: PrintQuotePage,
+  },
+  {
+    path: "*",
+    Component: () => <div>404 Not Found</div>,
   },
 ])
 

@@ -7,10 +7,10 @@ export function Nav() {
 
   return (
     <nav className="flex items-center gap-6">
-      <NavLink to="/" active={pathname === "/"}>
+      <NavLink to="/projectx" active={pathname === "/"}>
         Trang chủ
       </NavLink>
-      <NavLink to="/quotes" active={pathname.startsWith("/quotes")}>
+      <NavLink to="/projectx/quotes" active={pathname.startsWith("/quotes")}>
         Phiếu báo giá
       </NavLink>
     </nav>
