@@ -40,7 +40,7 @@ export function PrintQuotePage() {
     <div className="flex w-[1280px] flex-col items-stretch p-6">
       <div className="flex items-center gap-12">
         <div>
-          <img src="/logo.svg" alt="Logo" className="w-[192px]" />
+          <img src="/projectx/logo.svg" alt="Logo" className="w-[192px]" />
         </div>
         <div>
           <p className="font-semibold uppercase">
