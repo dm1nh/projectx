@@ -1,7 +1,18 @@
 import { format } from "date-fns"
-import { EditIcon } from "lucide-react"
-import { Link, useLoaderData } from "react-router"
+import { EditIcon, Trash2Icon } from "lucide-react"
+import { Link, useLoaderData, useNavigate, useRevalidator } from "react-router"
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,21 +22,19 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 import { createDb } from "@/lib/db"
-import { type QuoteDoc } from "@/lib/db/schemas"
+import { ProductDoc, type QuoteDoc } from "@/lib/db/schemas"
+
+import { QuoteProductTable } from "../form/ProductTable"
 
 export async function loader({ params }: { params: { id: string } }) {
   try {
     const db = await createDb()
-    const result = await db.quotes
-      .find({
-        selector: {
-          id: { $eq: params.id },
-        },
-      })
-      .exec()
-    if (!result[0]) return { error: "Not found", data: null }
-    return { error: null, data: result[0] }
+    const quote = await db.quotes.findOne(params.id).exec()
+    if (!quote) return { error: "Not found", data: null }
+    const products = await quote.populate("products")
+    return { error: null, data: { quote, products } }
   } catch (err) {
     if (err instanceof Error) {
       return { error: err.message, data: null }
@@ -38,14 +47,25 @@ export function HydrateFallback() {
 }
 
 export function QuotePage() {
+  const revalidator = useRevalidator()
+  const navigate = useNavigate()
   const { error, data } = useLoaderData() as {
     error: string | null
-    data: QuoteDoc | null
+    data: { quote: QuoteDoc; products: ProductDoc[] } | null
   }
 
   if (error || !data) {
     return <div>Error</div>
   }
+
+  async function onDeleteQuote() {
+    const db = await createDb()
+    await db.quotes.findOne(data?.quote.id).remove()
+    revalidator.revalidate()
+    navigate("/quotes")
+  }
+
+  const { quote } = data
 
   return (
     <>
@@ -54,36 +74,67 @@ export function QuotePage() {
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/">Home</Link>
+                <Link to="/">Trang chủ</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/quotes">Quotes</Link>
+                <Link to="/quotes">Phiếu báo giá</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>{data.id}</BreadcrumbPage>
+              <BreadcrumbPage>{quote.id}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <Link to={`/quotes/form?id=${data.id}`}>
-        <Button size="sm">
-          <EditIcon /> Edit
-        </Button>
-      </Link>
-      <div>
-        <p>Customer Name: {data.customerName}</p>
-        <p>Phone: {data.phoneNumber}</p>
-        <p>Address: {data.address ?? "N/A"}</p>
-        <p>Tax Code: {data.taxCode ?? "N/A"}</p>
-        <p>Car Model: {data.carModel ?? "N/A"}</p>
-        <p>Date: {format(data.date, "dd-MM-yyy")}</p>
-        <p>Created At: {format(data.createdAt, "dd-MM-yyy")}</p>
+      <div className="space-x-2">
+        <Link to={`/quotes/form?id=${quote.id}`}>
+          <Button size="sm">
+            <EditIcon /> Sửa
+          </Button>
+        </Link>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive">
+              <Trash2Icon /> Xóa
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Bạn có chắc muốn xóa phiếu báo giá này?
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                Dữ liệu sẽ bị xóa vĩnh viễn và không thể khôi phục.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Hủy</AlertDialogCancel>
+              <AlertDialogAction onClick={onDeleteQuote}>
+                Tiếp tục
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
+      <div>
+        <p>Số: {quote.no}</p>
+        <p>Khách hàng: {quote.customerName}</p>
+        <p>Điện thoại: {quote.phoneNumber}</p>
+        <p>Địa chỉ: {quote.address ?? "N/A"}</p>
+        <p>Mã số thuế: {quote.taxCode ?? "N/A"}</p>
+        <p>Mẫu xe: {quote.carModel ?? "N/A"}</p>
+        <p>Biển số: {quote.carRegistrationNumber ?? "N/A"}</p>
+        <p>Số km: {quote.carOdometer ?? "N/A"}</p>
+        <p>VIN: {quote.carVin ?? "N/A"}</p>
+        <p>Ngày: {format(quote.date, "dd-MM-yyy")}</p>
+        <p>Ngày tạo: {format(quote.createdAt, "dd-MM-yyy")}</p>
+      </div>
+      <Separator />
+      <QuoteProductTable {...data} />
     </>
   )
 }

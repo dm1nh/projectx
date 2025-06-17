@@ -25,14 +25,20 @@ export const createProductFormInputSchema = z.object({
   unitPrice: z.coerce
     .number({ message: "Unit price must be a number" })
     .min(0)
-    .default(0),
+    .default(0)
+    .optional(),
   unit: z.string().min(1, { message: "Unit is required" }),
   quantity: z.coerce
     .number({ message: "Quantity must be a number" })
     .min(1)
-    .default(1),
-  vat: z.coerce.number({ message: "VAT must be a number" }).min(0).default(0),
-  type: typeEnumSchema.default("1"),
+    .default(1)
+    .optional(),
+  vat: z.coerce
+    .number({ message: "VAT must be a number" })
+    .min(0)
+    .default(8)
+    .optional(),
+  type: typeEnumSchema.default("1").optional(),
 })
 
 export type CreateProductFormInput = z.infer<

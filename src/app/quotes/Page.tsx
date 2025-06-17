@@ -44,19 +44,19 @@ export function QuotesPage() {
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link to="/">Home</Link>
+                <Link to="/">Trang chủ</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Quotes</BreadcrumbPage>
+              <BreadcrumbPage>Phiếu báo giá</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
       </div>
       <Link to="/quotes/form">
         <Button size="sm">
-          <PlusIcon /> Create
+          <PlusIcon /> Thêm
         </Button>
       </Link>
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">

@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { PlusIcon } from "lucide-react"
+import { PenIcon, PlusIcon } from "lucide-react"
 import { nanoid } from "nanoid"
 import { useForm } from "react-hook-form"
 import { useRevalidator } from "react-router"
@@ -31,6 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { mappedProductType } from "@/lib/constants"
 import { createDb } from "@/lib/db"
 import type { ProductDoc, QuoteDoc } from "@/lib/db/schemas"
 import {
@@ -50,12 +51,12 @@ export function ProductForm({
   const form = useForm<CreateProductFormInput>({
     resolver: zodResolver(createProductFormInputSchema),
     defaultValues: {
-      name: "",
-      unitPrice: 0,
-      unit: "",
-      quantity: 1,
-      vat: 0,
-      type: "1",
+      name: product?.name ?? "",
+      unitPrice: product?.unitPrice ?? 0,
+      unit: product?.unit ?? "",
+      quantity: product?.quantity ?? 1,
+      vat: product?.vat ?? 0,
+      type: product?.type ?? "1",
     },
   })
 
@@ -64,9 +65,13 @@ export function ProductForm({
     if (!product) {
       const newProduct = await db.products.insert({
         id: nanoid(),
-        ...values,
+        name: values.name,
+        unitPrice: values.unitPrice ?? 0,
+        quantity: values.quantity ?? 1,
+        unit: values.unit,
+        vat: values.vat ?? 8,
+        type: values.type ?? "1",
       })
-      console.log(newProduct)
       await db.quotes
         .find({
           selector: {
@@ -78,23 +83,33 @@ export function ProductForm({
             ? [...quote.products, newProduct.id]
             : [newProduct.id],
         })
-      form.reset()
-      setOpen(false)
-      revalidator.revalidate()
+    } else {
+      await db.products.findOne(product.id).patch(values)
     }
+    form.reset()
+    setOpen(false)
+    revalidator.revalidate()
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="secondary">
-          <PlusIcon /> Add Product
-        </Button>
+        {product ? (
+          <Button variant="outline" size="icon">
+            <PenIcon />
+          </Button>
+        ) : (
+          <Button variant="secondary">
+            <PlusIcon /> Thêm sản phẩm
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle>Add Product</DialogTitle>
+        <DialogTitle>{product ? `Sửa sản phẩm` : "Thêm sản phẩm"}</DialogTitle>
         <DialogDescription>
-          Add new product to Quote #{quote.id}
+          {product
+            ? `Sửa sản phẩm #${product.id} trong phiếu #${quote.id}`
+            : `Thêm sản phẩm mới vào phiếu #${quote.id}`}
         </DialogDescription>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -103,7 +118,7 @@ export function ProductForm({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Tên sản phẩm</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -116,7 +131,7 @@ export function ProductForm({
               name="unitPrice"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Unit Price</FormLabel>
+                  <FormLabel>Đơn giá</FormLabel>
                   <FormControl>
                     <NumberInput min={0} stepper={1000} {...field} />
                   </FormControl>
@@ -130,7 +145,7 @@ export function ProductForm({
               name="unit"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Unit</FormLabel>
+                  <FormLabel>Đơn vị tính</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -143,7 +158,7 @@ export function ProductForm({
               name="quantity"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Quantity</FormLabel>
+                  <FormLabel>Số lượng</FormLabel>
                   <FormControl>
                     <NumberInput min={1} {...field} />
                   </FormControl>
@@ -156,7 +171,7 @@ export function ProductForm({
               name="vat"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>VAT</FormLabel>
+                  <FormLabel>VAT(%)</FormLabel>
                   <FormControl>
                     <NumberInput min={0} {...field} />
                   </FormControl>
@@ -169,7 +184,7 @@ export function ProductForm({
               name="type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Type</FormLabel>
+                  <FormLabel>Loại sản phẩm</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -180,16 +195,22 @@ export function ProductForm({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="1">1</SelectItem>
-                      <SelectItem value="2">2</SelectItem>
-                      <SelectItem value="3">3</SelectItem>
+                      {Object.keys(mappedProductType).map((type) => (
+                        <SelectItem value={type}>
+                          {
+                            mappedProductType[
+                              type as keyof typeof mappedProductType
+                            ]
+                          }
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button type="submit">{product ? "Cập nhật" : "Thêm"}</Button>
           </form>
         </Form>
       </DialogContent>

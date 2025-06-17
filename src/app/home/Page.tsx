@@ -1,3 +1,5 @@
+import { Link } from "react-router"
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,14 +13,23 @@ export function HydrateFallback() {
 
 export function HomePage() {
   return (
-    <div>
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbPage>Home</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-    </div>
+    <>
+      <div>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Trang chủ</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+      <div>
+        <Link to="/quotes">
+          <div className="rounded-lg border p-4">
+            <h3 className="text-2xl font-semibold">Phiếu báo giá</h3>
+          </div>
+        </Link>
+      </div>
+    </>
   )
 }
