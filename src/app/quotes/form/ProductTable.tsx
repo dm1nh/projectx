@@ -70,21 +70,15 @@ export function QuoteProductTable({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[3%]">STT</TableHead>
-                    <TableHead className="w-[50%]">Hạng mục</TableHead>
-                    <TableHead className="w-[8%] text-right">Đơn giá</TableHead>
-                    <TableHead className="w-[8%] text-right">
-                      Số lượng
-                    </TableHead>
+                    <TableHead className="">STT</TableHead>
+                    <TableHead>Hạng mục</TableHead>
+                    <TableHead className="text-right">Đơn giá</TableHead>
+                    <TableHead className="text-right">Số lượng</TableHead>
                     <TableHead>Đơn vị</TableHead>
-                    <TableHead className="w-[8%] text-right">VAT(%)</TableHead>
-                    <TableHead className="w-[12%] text-right">
-                      Thành tiền
-                    </TableHead>
+                    <TableHead className="text-right">VAT(%)</TableHead>
+                    <TableHead className="text-right">Thành tiền</TableHead>
                     {allowEdit && (
-                      <TableHead className="w-[11%] text-right">
-                        Hành động
-                      </TableHead>
+                      <TableHead className="text-right">Hành động</TableHead>
                     )}
                   </TableRow>
                 </TableHeader>
@@ -99,7 +93,7 @@ export function QuoteProductTable({
                         <TableCell>
                           <NumericFormat
                             type="text"
-                            className="text-right"
+                            className="max-w-[120px] text-right"
                             value={doc.unitPrice}
                             thousandSeparator="."
                             decimalSeparator=","
@@ -114,7 +108,7 @@ export function QuoteProductTable({
                         <TableCell className="text-right">
                           <NumericFormat
                             type="text"
-                            className="text-right font-medium"
+                            className="max-w-[120px] text-right font-medium"
                             value={totalPriceIncludingVAT}
                             decimalScale={0}
                             thousandSeparator="."

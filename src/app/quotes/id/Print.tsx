@@ -37,7 +37,7 @@ export function PrintQuotePage() {
   const { quote } = data
 
   return (
-    <div className="flex w-[1280px] flex-col items-stretch p-6">
+    <div className="flex w-[960px] flex-col items-stretch p-6">
       <div className="flex items-center gap-12 self-center">
         <img src="/projectx/logo.svg" alt="Logo" className="w-[192px]" />
         <div>
@@ -51,7 +51,7 @@ export function PrintQuotePage() {
           <p>Tel: 093.82.84.079 hoặc 096.444.62.64</p>
           <p>Website: thienphucworkshop.com.vn</p>
           <p>Email: thienphucworkshop@gmail.com</p>
-          <p>Số TK: 007.100.069.9935 - Vietcombank - Chi nhánh Hồ Chí Minh</p>
+          <p>Số TK: 060333030813 - SACOMBANK - CN Hồ Chí Minh</p>
         </div>
       </div>
       <h1 className="mt-8 text-center text-2xl font-semibold uppercase">
@@ -108,13 +108,13 @@ export function PrintQuotePage() {
         <h3 className="font-semibold">Ghi chú</h3>
         <p>
           <span className="font-semibold">Lưu ý</span>: Báo giá này chỉ có giá
-          trị trong vòng 15 ngày kể từ ngày xuất phiếu và không có giá trị thanh
+          trị trong vòng 07 ngày kể từ ngày xuất phiếu và không có giá trị thanh
           toán. Những chi phí phát sinh ngoài phần báo giá sẽ được thông báo sau
           khi tháo ra kiểm tra trực tiếp.
         </p>
         <ul>
           <li>
-            - Phụ tùng thay thế chính hãng được bảo hành 12 tháng hoặc 20.000 km
+            - Phụ tùng thay thế chính hãng được bảo hành 6 tháng hoặc 10.000 km
             tùy điều kiện nào đến trước (trừ các phụ tùng cho công việc bảo
             dưỡng định kỳ và phụ tùng hao mòn tự nhiên).
           </li>
