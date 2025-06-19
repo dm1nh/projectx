@@ -108,8 +108,7 @@ export function PrintQuotePage() {
         <h3 className="font-semibold">Ghi chú</h3>
         <p>
           <span className="font-semibold">Lưu ý</span>: Báo giá này chỉ có giá
-          trị trong vòng 07 ngày kể từ ngày xuất phiếu và không có giá trị thanh
-          toán. Những chi phí phát sinh ngoài phần báo giá sẽ được thông báo sau
+          trị trong vòng 07 ngày kể từ ngày xuất phiếu. Những chi phí phát sinh ngoài phần báo giá sẽ được thông báo sau
           khi tháo ra kiểm tra trực tiếp.
         </p>
         <ul>
