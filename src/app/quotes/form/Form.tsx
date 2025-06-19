@@ -6,6 +6,7 @@ import { CalendarIcon, LoaderCircleIcon } from "lucide-react"
 import { nanoid } from "nanoid"
 import { useForm } from "react-hook-form"
 import { useNavigate, useRevalidator } from "react-router"
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -54,24 +55,34 @@ export function QuoteForm({ quote }: { quote?: QuoteDoc }) {
   })
 
   async function onSubmit(values: CreateQuoteFormInput) {
-    setLoading(true)
-    const db = await createDb()
+    try {
+      setLoading(true)
+      const db = await createDb()
 
-    if (!quote) {
-      await db.quotes.insert({
-        id: nanoid(),
-        ...values,
-        createdAt: new Date().toISOString(),
-      })
-      revalidator.revalidate()
+      if (!quote) {
+        await db.quotes.insert({
+          id: nanoid(),
+          ...values,
+          createdAt: new Date().toISOString(),
+        })
+        revalidator.revalidate()
+        setLoading(false)
+        toast.success("Thêm phiếu báo giá thành công")
+        navigate("/projectx/quotes")
+        return
+      }
+
+      await db.quotes.findOne(quote.id).patch(values)
       setLoading(false)
-      navigate("/projectx/quotes")
-      return
+      toast.success("Cập nhật phiếu báo giá thành công")
+      revalidator.revalidate()
+    } catch (err) {
+      setLoading(false)
+      if (err instanceof Error) {
+        toast.error(`Lỗi: ${err.message}`)
+      }
+      throw err
     }
-
-    await db.quotes.findOne(quote.id).patch(values)
-    setLoading(false)
-    revalidator.revalidate()
   }
 
   return (
@@ -236,7 +247,11 @@ export function QuoteForm({ quote }: { quote?: QuoteDoc }) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="justify-self-start" disabled={loading}>
+        <Button
+          type="submit"
+          className="justify-self-start"
+          disabled={loading || !form.formState.isDirty}
+        >
           {loading ? (
             <>
               <LoaderCircleIcon className="animate-spin" /> Đang xử lý

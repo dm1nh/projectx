@@ -5,6 +5,7 @@ import { PenIcon, PlusIcon } from "lucide-react"
 import { nanoid } from "nanoid"
 import { useForm } from "react-hook-form"
 import { useRevalidator } from "react-router"
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -47,6 +48,7 @@ export function ProductForm({
   product?: ProductDoc
 }) {
   const revalidator = useRevalidator()
+  const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
   const form = useForm<CreateProductFormInput>({
     resolver: zodResolver(createProductFormInputSchema),
@@ -61,34 +63,45 @@ export function ProductForm({
   })
 
   async function onSubmit(values: CreateProductFormInput) {
-    const db = await createDb()
-    if (!product) {
-      const newProduct = await db.products.insert({
-        id: nanoid(),
-        name: values.name,
-        unitPrice: values.unitPrice ?? 0,
-        quantity: values.quantity ?? 1,
-        unit: values.unit,
-        vat: values.vat ?? 8,
-        type: values.type ?? "1",
-      })
-      await db.quotes
-        .find({
-          selector: {
-            id: { $eq: quote.id },
-          },
+    try {
+      setLoading(true)
+      const db = await createDb()
+      if (!product) {
+        const newProduct = await db.products.insert({
+          id: nanoid(),
+          name: values.name,
+          unitPrice: values.unitPrice ?? 0,
+          quantity: values.quantity ?? 1,
+          unit: values.unit,
+          vat: values.vat ?? 8,
+          type: values.type ?? "1",
         })
-        .patch({
-          products: quote.products
-            ? [...quote.products, newProduct.id]
-            : [newProduct.id],
-        })
-    } else {
-      await db.products.findOne(product.id).patch(values)
+        await db.quotes
+          .find({
+            selector: {
+              id: { $eq: quote.id },
+            },
+          })
+          .patch({
+            products: quote.products
+              ? [...quote.products, newProduct.id]
+              : [newProduct.id],
+          })
+      } else {
+        await db.products.findOne(product.id).patch(values)
+      }
+      toast.success("Cập nhật hạng mục thành công")
+      form.reset()
+      setOpen(false)
+      setLoading(false)
+      revalidator.revalidate()
+    } catch (err) {
+      setLoading(false)
+      if (err instanceof Error) {
+        toast.error(err.message)
+      }
+      throw err
     }
-    form.reset()
-    setOpen(false)
-    revalidator.revalidate()
   }
 
   return (
@@ -225,7 +238,9 @@ export function ProductForm({
                 </FormItem>
               )}
             />
-            <Button type="submit">{product ? "Cập nhật" : "Thêm"}</Button>
+            <Button type="submit" disabled={loading || !form.formState.isDirty}>
+              {product ? "Cập nhật" : "Thêm"}
+            </Button>
           </form>
         </Form>
       </DialogContent>
