@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/breadcrumb"
 
 export function HydrateFallback() {
-  return <div>Loading...</div>
+  return <div>Đang tải...</div>
 }
 
 export function HomePage() {

@@ -12,6 +12,9 @@ importers:
 
   .:
     dependencies:
+      '@fontsource-variable/roboto':
+        specifier: ^5.2.6
+        version: 5.2.6
       '@hookform/resolvers':
         specifier: ^5.1.1
         version: 5.1.1(react-hook-form@7.57.0(react@19.1.0))
@@ -1130,6 +1133,9 @@ packages:
 
   '@floating-ui/utils@0.2.9':
     resolution: {integrity: sha512-MDWhGtE+eHw5JW7lq4qhc5yRLS11ERl1c7Z6Xd0a58DozHES6EnNNwUWbMiG4J9Cgj053Bhk8zvlhFYKVhULwg==}
+
+  '@fontsource-variable/roboto@5.2.6':
+    resolution: {integrity: sha512-bKgCwHdRcUcHPmypU5oih+OnTQUnZ7XBoztJ0W2X+m7WRYITTWnnnQBDPAKbOwiemU/yJHGg+lD03M60BGuuGg==}
 
   '@grpc/grpc-js@1.9.15':
     resolution: {integrity: sha512-nqE7Hc0AzI+euzUwDAy0aY5hCp10r734gMGRdU+qOPX0XSceI2ULrcXB5U2xSc5VkWwalCj4M7GzCAygZl2KoQ==}
@@ -5488,6 +5494,8 @@ snapshots:
       react-dom: 19.1.0(react@19.1.0)
 
   '@floating-ui/utils@0.2.9': {}
+
+  '@fontsource-variable/roboto@5.2.6': {}
 
   '@grpc/grpc-js@1.9.15':
     dependencies:

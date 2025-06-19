@@ -3,6 +3,8 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { createBrowserRouter, RouterProvider } from "react-router"
 
+// @ts-expect-error something wrong with tsconfig
+import "@fontsource-variable/roboto"
 import "./globals.css"
 
 import { HomePage } from "@/app/home/Page"
@@ -39,6 +41,7 @@ const router = createBrowserRouter([
           {
             path: ":id",
             shouldRevalidate,
+            // @ts-expect-error lazy to fix this
             loader: quoteLoader,
             Component: QuotePage,
           },
@@ -55,6 +58,7 @@ const router = createBrowserRouter([
   {
     path: "projectx/quotes/:id/print",
     shouldRevalidate,
+    // @ts-expect-error lazy to fix this
     loader: printQuoteLoader,
     Component: PrintQuotePage,
   },

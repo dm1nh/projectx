@@ -28,13 +28,17 @@ export async function loader() {
 }
 
 export function HydrateFallback() {
-  return <div>Loading...</div>
+  return <div>Đang tải...</div>
 }
 
 export function QuotesPage() {
   const { error, data } = useLoaderData() as {
     error: string | null
     data: QuoteDoc[] | null
+  }
+
+  if (error || !data) {
+    return <div>Lỗi</div>
   }
 
   return (

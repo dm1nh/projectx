@@ -1,5 +1,5 @@
 import { format } from "date-fns"
-import { useLoaderData, useNavigate, useRevalidator } from "react-router"
+import { useLoaderData } from "react-router"
 
 import { createDb } from "@/lib/db"
 import { ProductDoc, type QuoteDoc } from "@/lib/db/schemas"
@@ -21,7 +21,7 @@ export async function loader({ params }: { params: { id: string } }) {
 }
 
 export function HydrateFallback() {
-  return <div>Loading...</div>
+  return <div>Đang tải...</div>
 }
 
 export function PrintQuotePage() {

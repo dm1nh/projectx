@@ -34,7 +34,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 }
 
 export function HydrateFallback() {
-  return <div>Loading...</div>
+  return <div>Đang tải...</div>
 }
 
 export function QuoteFormPage() {

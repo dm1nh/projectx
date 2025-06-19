@@ -43,7 +43,7 @@ export async function loader({ params }: { params: { id: string } }) {
 }
 
 export function HydrateFallback() {
-  return <div>Loading...</div>
+  return <div>Đang tải...</div>
 }
 
 export function QuotePage() {

@@ -55,7 +55,7 @@ export function ProductForm({
       unitPrice: product?.unitPrice ?? 0,
       unit: product?.unit ?? "",
       quantity: product?.quantity ?? 1,
-      vat: product?.vat ?? 0,
+      vat: product?.vat ?? 8,
       type: product?.type ?? "1",
     },
   })
@@ -100,16 +100,16 @@ export function ProductForm({
           </Button>
         ) : (
           <Button variant="secondary">
-            <PlusIcon /> Thêm sản phẩm
+            <PlusIcon /> Thêm hạng mục
           </Button>
         )}
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle>{product ? `Sửa sản phẩm` : "Thêm sản phẩm"}</DialogTitle>
+        <DialogTitle>{product ? `Sửa hạng mục` : "Thêm hạng mục"}</DialogTitle>
         <DialogDescription>
           {product
-            ? `Sửa sản phẩm #${product.id} trong phiếu #${quote.id}`
-            : `Thêm sản phẩm mới vào phiếu #${quote.id}`}
+            ? `Sửa hạng mục #${product.id} trong phiếu #${quote.id}`
+            : `Thêm hạng mục mới vào phiếu #${quote.id}`}
         </DialogDescription>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -118,7 +118,7 @@ export function ProductForm({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tên sản phẩm</FormLabel>
+                  <FormLabel>Tên hạng mục</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -183,7 +183,9 @@ export function ProductForm({
                     </FormControl>
                     <SelectContent>
                       {vatLevels.map((vl) => (
-                        <SelectItem value={vl.toString()}>{vl}</SelectItem>
+                        <SelectItem value={vl.toString()}>
+                          {vl.toString()}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -197,7 +199,7 @@ export function ProductForm({
               name="type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Loại sản phẩm</FormLabel>
+                  <FormLabel>Loại hạng mục</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}

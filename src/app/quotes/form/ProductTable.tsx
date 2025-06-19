@@ -57,7 +57,7 @@ export function QuoteProductTable({
           {Object.values(data.productsByType).map((pbt) => (
             <div key={pbt.type} className="mt-6">
               <div className="flex items-center justify-between">
-                <h3 className="mb-1 ml-2 font-medium uppercase">{pbt.type}</h3>
+                <h3 className="mb-1 font-medium uppercase">{pbt.type}</h3>
                 <NumericFormat
                   type="text"
                   className="mr-2 text-right text-base font-medium"
@@ -127,7 +127,7 @@ export function QuoteProductTable({
                               <AlertDialogContent>
                                 <AlertDialogHeader>
                                   <AlertDialogTitle>
-                                    Bạn có chắc muốn xóa sản phẩm này?
+                                    Bạn có chắc muốn xóa hạng mục này?
                                   </AlertDialogTitle>
                                   <AlertDialogDescription>
                                     Dữ liệu sẽ bị xóa vĩnh viễn và không thể
