@@ -173,7 +173,12 @@ export function ProductForm({
                 <FormItem>
                   <FormLabel>Số lượng</FormLabel>
                   <FormControl>
-                    <NumberInput min={1} {...field} />
+                    <NumberInput
+                      min={0}
+                      allowedDecimalSeparators={["."]}
+                      decimalScale={1}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

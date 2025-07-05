@@ -20,7 +20,7 @@ export const productSchemaLiteral = {
     name: { type: "string" },
     unitPrice: { type: "integer", minimum: 0, default: 0 },
     unit: { type: "string" },
-    quantity: { type: "integer", minimum: 1, default: 1 },
+    quantity: { type: "number", minimum: 1, default: 1 },
     vat: { type: "integer", minimum: 0, default: 0 },
     type: { type: "string", enum: ["1", "2", "3"], default: "1" },
   },
